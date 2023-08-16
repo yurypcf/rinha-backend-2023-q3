@@ -10,17 +10,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_08_16_145253) do
+ActiveRecord::Schema[7.0].define(version: 2023_08_16_192844) do
   # These are extensions that must be enabled in order to support this database
+  enable_extension "btree_gin"
   enable_extension "plpgsql"
 
-  create_table "pessoas", force: :cascade do |t|
+  create_table "pessoas", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "nome", limit: 100, null: false
     t.string "apelido", limit: 32, null: false
     t.string "nascimento", limit: 10, null: false
     t.string "stack", limit: 32, default: [], array: true
+    t.text "search_term", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["search_term"], name: "index_pessoas_on_search_term", using: :gin
   end
 
 end
