@@ -4,9 +4,7 @@ class PessoasController < ApplicationController
   # GET /pessoas
   def index
     if request.query_parameters.any?
-      @pessoas = Pessoa
-        .where("search_term ILIKE ?", "%#{params[:t]}%")
-        .limit(50)
+      @pessoas = Pessoa.search(params[:t]).limit(50)
 
       render json: @pessoas
     else

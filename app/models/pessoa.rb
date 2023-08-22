@@ -5,6 +5,8 @@ class Pessoa < ApplicationRecord
 
   before_save :append_search_term
 
+  scope :search, -> (term) { where("search_term ILIKE ?", "%#{term}%") }
+
   def append_search_term
     search_term = [self.nome, self.apelido, self.stack]
     self.search_term = search_term.flatten.join(",")
