@@ -11,7 +11,7 @@ RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
 
 ENV RAILS_LOG_TO_STDOUT="1" \
-    RAILS_ENV="development" \
+    RAILS_ENV="production" \
     BUNDLE_WITHOUT="development"
 
 COPY Gemfile* .
@@ -23,3 +23,6 @@ COPY . .
 RUN ["chmod", "+x", "/usr/src/app/bin/docker-entrypoint"]
 
 ENTRYPOINT ["/usr/src/app/bin/docker-entrypoint"]
+
+EXPOSE 3000
+CMD ["./bin/rails", "server"]
